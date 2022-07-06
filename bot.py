@@ -47,4 +47,4 @@ async def on_member_join(self,member):
     await channel.send(f"Hello {member.mention}| Welcome to **{member.guild.name} for More Information Go To #rules**")
     await channel.send(file=file)
 
-client.run(os.environ.get("CLIENT_SECRET"))
+client.run(os.environ.get("OTkzODA3MjQ5NTM5NjE2ODcw.G8V8jS.nt5ukeU1CfEy_wUCENEPZhRXUsT6gjEyjjhEn8"))
