@@ -77,4 +77,4 @@ async def on_member_remove(member):
 
   await channel.send(f"{member.name} Has Left The server, We are going to miss you :( ")
 
-client.run(os.environ.get("CLIENT_SECRET"))
+client.run("OTkzODA3MjQ5NTM5NjE2ODcw.Gjai0A.tvxWRGUvD-szyUpah3aAhdqI0ZHrBBscJ1vpcM")
