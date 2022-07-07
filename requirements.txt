@@ -1,4 +1,5 @@
 discord.py
 requests
 python-dotenv
-youtube-dl
+easy-pil
+asyncio

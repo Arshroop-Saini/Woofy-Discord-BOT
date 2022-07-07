@@ -1,6 +1,4 @@
 import discord
-import os
-from pandas import value_counts
 import requests
 import json
 import random

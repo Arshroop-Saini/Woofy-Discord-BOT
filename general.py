@@ -1,11 +1,5 @@
 import discord
-from itertools import count
-import os
-from pandas import value_counts
-import requests
-import json
 import random
-from datetime import datetime
 from discord.ext import commands
 import asyncio
 

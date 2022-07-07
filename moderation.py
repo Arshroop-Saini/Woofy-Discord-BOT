@@ -1,14 +1,11 @@
 import discord
-import os
-from pandas import value_counts
-import requests
-import json
-import random
 from discord.ext import commands
+import asyncio
 
 class moderation(commands.Cog):
     def __init__(self,client):
         self.client=client
+    
 
 # Banning Someone
     @commands.command() # uses command decorators, in this case inside a cog
@@ -21,9 +18,11 @@ class moderation(commands.Cog):
 # Blocking cuss words 
     @commands.Cog.listener()
     async def on_message(self,message):
-        bad_words = ["test", "bad", "word", "fuck", "pussy", "asshole", "chutiya", "mother fucker", "lawde"]
+        global bad_words
+        bad_words = ["fuck", "pussy", "asshole", "chutiya", "mother fucker", "lawde"]
         for word in bad_words:
             if word in str.lower(message.content):
+                await asyncio.sleep(3)
                 await message.delete()
 
 # Clearing messages
@@ -74,3 +73,55 @@ class moderation(commands.Cog):
         await member.send(f" you have unmutedd from: - {ctx.guild.name}")
         embed = discord.Embed(title="unmute", description=f" unmuted-{member.mention}",colour=discord.Colour.light_gray())
         await ctx.send(embed=embed)
+
+# Adding a channel
+    @commands.command()
+    @commands.has_permissions(manage_messages=True)
+    async def create_channel(self,ctx, channel_name):
+        guild = ctx.guild
+        await guild.create_text_channel(channel_name)
+
+# Deleting a channel
+    @commands.command()
+    @commands.has_permissions(manage_messages=True)
+    async def delete_channel(self,ctx, channel_name):
+        # check if the channel exists
+        existing_channel = discord.utils.get(ctx.guild.channels, name=channel_name)
+        
+        # if the channel exists
+        if existing_channel is not None:
+            await existing_channel.delete()
+        # if the channel does not exist, inform the user
+        else:
+            await ctx.send(f'No channel named, "{channel_name}", was found')
+#Bans a member for a specific number of days
+    @commands.command()
+    @commands.has_permissions(ban_members=True)
+    async def softban(self,context, member : discord.Member, days, reason=None):
+        #Asyncio uses seconds for its sleep function
+        #multiplying the num of days the user enters by the num of seconds in a day
+        days * 86400 
+        await member.ban(reason=reason)
+        await context.send(f'{member} has been softbanned')
+        await asyncio.sleep(days)
+        print("Time to unban")
+        await member.unban()
+        await context.send(f'{member} softban has finished')
+
+#This event waits for commands to be issued, if a specific command requires a permission or arguement
+#This event will be invoked to tell the user that they dont have the required permissions
+#or they havent issues the command correctly
+
+    @commands.Cog.listener()
+    async def on_command_error(self,context, error):
+        if isinstance(error, commands.MissingRequiredArgument):
+            await context.send("Oh no! Looks like you have missed out an argument for this command.")
+        if isinstance(error, commands.MissingPermissions):
+            await context.send("Oh no! Looks like you Dont have the permissions for this command.")
+        if isinstance(error, commands.MissingRole):
+            await context.send("Oh no! Looks like you Dont have the roles for this command.")
+        #bot errors
+        if isinstance(error, commands.BotMissingPermissions):
+            await context.send("Oh no! Looks like I Dont have the permissions for this command.")
+        if isinstance(error, commands.BotMissingRole):
+            await context.send("Oh no! Looks like I Dont have the roles for this command.")
