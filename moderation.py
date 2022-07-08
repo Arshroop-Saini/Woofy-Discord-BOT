@@ -125,3 +125,17 @@ class moderation(commands.Cog):
             await context.send("Oh no! Looks like I Dont have the permissions for this command.")
         if isinstance(error, commands.BotMissingRole):
             await context.send("Oh no! Looks like I Dont have the roles for this command.")
+#Managign Spam messeging
+    @commands.command(aliases = ['sp'])
+    async def spam(self,ctx, *, message):
+        print(f"{ctx.guild.name} - #{ctx.channel.name} - {ctx.author.name} - {ctx.message.content}")
+        s = message.split()
+        if int(s[-1]) > 20:
+            await ctx.send('You cannot spam that much.')
+        else:
+            out = message[0:len(message) - len(s[-1]) - 1]
+            await ctx.send((out + '\n') * int(s[-1]))
+    @spam.error
+    async def spam_error(self,ctx, error):
+        print(error)
+        await ctx.send('Please follow format: `y.spam {message} {amount}`')
