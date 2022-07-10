@@ -98,3 +98,12 @@ class fun(commands.Cog):
         jEmbed.set_footer(text='🔞')
 
         await context.send(embed=jEmbed)
+    
+    @commands.command(aliases = ['cf'])
+    async def coinflip(self,ctx):
+        print(f"{ctx.guild.name} - #{ctx.channel.name} - {ctx.author.name} - {ctx.message.content}")
+        rand = random.randint(0, 1)
+        if rand:
+            await ctx.send("Heads!")
+        else:
+            await ctx.send("Tails!")
