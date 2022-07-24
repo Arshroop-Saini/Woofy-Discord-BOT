@@ -139,3 +139,12 @@ class moderation(commands.Cog):
     async def spam_error(self,ctx, error):
         print(error)
         await ctx.send('Please follow format: `y.spam {message} {amount}`')
+
+# Dm-ing a user a rules embedd when he/she or any of the LGBTQ member join the server. (I'm not being sexist here)
+    @commands.Cog.listener()
+    async def on_member_join(self, context, member):
+        await member.send(jEmbed= discord.Embed(title="Rules", color=0x00ffff)
+            jEmbed.add_field(name='Title:',value=value,inline=False)
+            jEmbed.set_footer(text= "Example")
+            await context.send(embed=jEmbed))
+
